@@ -75,7 +75,10 @@ exports.delete = async (req, res) => {
 exports.deleteUserFromTask = async (userId) => {
     try {
         const tasks = await taskModel.find(userId);
-        tasks.forEach(task => await taskModel.findByIdAndUpdate(task._id, {userId: null}, {new: true}))
+        tasks.forEach(async (task) => {
+            await taskModel.findByIdAndUpdate(task._id, {userId: null}, {new: true})
+            }
+        );
     } catch(err) {
         console.log(err);
         res.sendStatus(500);
